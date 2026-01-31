@@ -1,10 +1,37 @@
-$(".sub,.sub_bg").hide();
-$(".menu>li").on("mouseover", function(){
- $(".sub,.sub_bg").stop().fadeIn()
-})
-$(".menu>li").on("mouseout", function(){
- $(".sub,.sub_bg").stop().fadeOut()
-})
+// Hamburger menu toggle
+const hamburgerBtn = document.getElementById('hamburger-menu');
+const mainMenu = document.getElementById('main-menu');
+const subMenus = document.querySelectorAll('.sub');
+const subBg = document.querySelector('.sub_bg');
+
+if (hamburgerBtn && mainMenu) {
+  hamburgerBtn.addEventListener('click', () => {
+    mainMenu.classList.toggle('active');
+    hamburgerBtn.classList.toggle('active'); // Optional: Add active class to hamburger icon for animation
+  });
+}
+
+// Ensure sub-menu events only fire on desktop
+function setupDesktopMenuEvents() {
+  if (window.matchMedia('(min-width: 769px)').matches) {
+    $(".sub,.sub_bg").hide();
+    $(".menu>li").on("mouseover", function(){
+     $(".sub,.sub_bg").stop().fadeIn();
+    });
+    $(".menu>li").on("mouseout", function(){
+     $(".sub,.sub_bg").stop().fadeOut();
+    });
+  } else {
+    // Mobile specific logic if needed, or remove desktop events
+    $(".menu>li").off("mouseover mouseout"); // Remove desktop hover events on mobile
+    $(".sub,.sub_bg").hide(); // Ensure sub-menus are hidden on mobile by default
+  }
+}
+
+// Initial setup
+setupDesktopMenuEvents();
+// Re-setup on window resize
+$(window).on('resize', setupDesktopMenuEvents);
 
 // Dark Mode Toggle
 const themeToggle = document.getElementById('theme-toggle');
