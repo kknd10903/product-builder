@@ -6,6 +6,42 @@ $(".menu>li").on("mouseout", function(){
  $(".sub,.sub_bg").stop().fadeOut()
 })
 
+// Dark Mode Toggle
+const themeToggle = document.getElementById('theme-toggle');
+const body = document.body;
+
+// Function to apply the theme
+function applyTheme(theme) {
+  if (theme === 'dark') {
+    body.classList.add('dark-mode');
+  } else {
+    body.classList.remove('dark-mode');
+  }
+}
+
+// Check for saved theme preference or system preference on load
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme) {
+  applyTheme(savedTheme);
+} else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+  // If no saved theme, check system preference
+  applyTheme('dark');
+} else {
+  applyTheme('light');
+}
+
+// Event listener for the theme toggle button
+themeToggle.addEventListener('click', () => {
+  if (body.classList.contains('dark-mode')) {
+    applyTheme('light');
+    localStorage.setItem('theme', 'light');
+  } else {
+    applyTheme('dark');
+    localStorage.setItem('theme', 'dark');
+  }
+});
+
+
 /* 
  기명함수 사용법
  function 함수이름() {
